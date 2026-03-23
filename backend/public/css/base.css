@@ -1,0 +1,82 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+h1{
+    color: red;
+}
+body{
+  background: url("../image/743187-awesome-wallpaper.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+ /*   background-color: lightblue;*/
+}
+.menu {
+    background-color: rgba(63, 125, 234, 0.359);
+    backdrop-filter: blur(2px);
+    border-radius: 10px;
+    height: 50px;
+    box-shadow: 13px 5px rgba(0, 0, 0, 0.21);
+
+}
+.menu ul{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 50px;
+}
+.menu ul li{
+    list-style-type: none;
+}
+.menu ul li a{
+    text-decoration: none;
+    color:rgb(7, 9, 15);
+    font-size: 20 px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    transition: 0.7s;
+}
+.menu ul li a:hover{
+    background-color: rgb(46, 156, 193);
+    transition: 0.5s;
+
+}
+section{
+    display: grid;
+    place-items: center;
+    height: 80vh;
+}
+section .login{
+    height: 40vh;
+    width: 250px;
+    background: lightgreen;
+    border-radius: 0px 0px 20px 0px;
+}
+section .login form{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    row-gap: 20px;
+
+
+}
+section .login form input{
+    border: none;
+    text-align: start;
+    padding: 7px;
+    border-radius:5px;
+    position: relative;
+    left:50%;
+    transform: translate(-50%,50%)
+}
+section .login form input[type="text"],section .login form input[type="password"]{
+    width: 180px;
+}
+section .login form input[type="submit"],section .login form input[type="reset"]{
+    width: 100px;
+    text-align: center  ;
+
+}
+

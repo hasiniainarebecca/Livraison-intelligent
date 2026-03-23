@@ -1,0 +1,63 @@
+{
+  "expo": {
+    "name": "Delivery Pro",
+    "slug": "Delivery Pro",
+    "version": "1.0.0",
+    "orientation": "portrait",
+
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#3B82F6"
+    },
+
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.porteouverte.app",
+
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Cette application a besoin de votre position pour suivre les livraisons.",
+        "NSLocationAlwaysUsageDescription": "Cette application a besoin de votre position pour le suivi GPS des livraisons."
+      }
+    },
+
+    "android": {
+      "package": "com.porteouverte.app",
+
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#3B82F6"
+      },
+
+      "permissions": [
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION"
+      ]
+    },
+
+    "plugins": [
+
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Autorisez delivery Pro à accéder à votre position pour le suivi GPS des livraisons."
+        }
+      ],
+
+      "expo-asset",
+      "expo-font",
+
+      [
+        "@stripe/stripe-react-native",
+        {
+          "merchantIdentifier": "merchant.com.porteouverte.app",
+          "enableGooglePay": true
+        }
+      ]
+
+    ]
+  }
+}

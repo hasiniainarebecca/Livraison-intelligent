@@ -1,0 +1,93 @@
+1️⃣ Différence entre php artisan serve et php artisan reverb:start
+
+php artisan serve --host=0.0.0.0 --port=8000
+
+Ça lance le serveur web Laravel principal.
+
+Il sert les routes HTTP/REST/API : /api/products, /panel/login, etc.
+
+Ton frontend (React ou mobile) va appeler ce serveur pour récupérer les données.
+
+Un seul terminal suffit pour ça.
+
+php artisan reverb:start --host=0.0.0.0 --port=6001
+
+Ça lance le serveur Reverb (WebSocket temps réel).
+
+Il sert uniquement les connexions temps réel, par exemple : notifications, messages instantanés, mises à jour de tableau de bord sans recharger la page.
+
+Il doit tourner en parallèle de php artisan serve.
+
+💡 En résumé :
+
+Serveur HTTP → pour toutes les requêtes classiques (API, pages web)
+
+Serveur WebSocket Reverb → pour le temps réel (notifications, messagerie instantanée…)
+
+2️⃣ Pourquoi deux terminaux ?
+
+Laravel ne peut pas lancer deux serveurs en même temps dans le même terminal.
+
+Donc tu fais :
+
+Terminal 1 : php artisan serve --host=0.0.0.0 --port=8000 → serveur API / web
+
+Terminal 2 : php artisan reverb:start --host=0.0.0.0 --port=6001 → serveur WebSocket temps réel
+
+Ainsi :
+
+Ton mobile / frontend envoie des requêtes HTTP → serveur Laravel normal
+
+Et reçoit des notifications ou messages instantanés → serveur Reverb
+
+3️⃣ À quoi servent les fichiers nouveaux ou modifiés ?
+
+config/reverb.php → contient la configuration de ton serveur WebSocket Reverb :
+
+host, port, app key, secret, TLS, max connections…
+
+Le serveur Reverb lit ce fichier pour savoir comment démarrer.
+
+.env backend / front / mobile
+
+Les clés et adresses IP sont stockées ici pour que :
+
+Le backend sache où écouter (REVERB_HOST / REVERB_PORT)
+
+Le frontend / mobile sache où se connecter (VITE_REVERB_* / EXPO_PUBLIC_PUSHER_*)
+
+Tables cache et sessions
+
+Reverb utilise la table cache pour stocker des informations temporaires (restart du serveur, notifications, etc.)
+
+Laravel stocke les sessions dans la table sessions si SESSION_DRIVER=database.
+
+4️⃣ Exemple de fonctionnement concret
+
+Imaginons : tu envoies un message instantané à un élève :
+
+Frontend → API Laravel → /messages/send
+
+Laravel écrit le message dans la base
+
+Laravel → Reverb (WebSocket) → envoie instantanément le message à tous les clients connectés
+
+L’élève reçoit le message en temps réel sans recharger la page
+
+Sans Reverb : il faudrait rafraîchir la page pour voir les messages. 😅
+
+✅ Donc, tout fonctionne normalement :
+
+php artisan serve → API normale
+
+php artisan reverb:start → temps réel
+
+Frontend/mobile → se connecte aux deux via les variables .env
+
+// terminale sokafana 
+
+Terminal 1        Terminal 2          Terminal 3       Terminal 4
+─────────────     ─────────────────   ──────────────   ────────────────
+cd backend        cd backend          cd front         cd mobile
+php artisan       php artisan         npm run dev      npx expo start
+serve             reverb:start
